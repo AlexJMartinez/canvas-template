@@ -1,32 +1,79 @@
-
-function draw() {
-    let canvas = document.getElementById('canvas');
-
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    if (canvas.getContext) {
-      let c = canvas.getContext('2d');
-
-    for (let i = 0; i < 50; i++) {
-
-      let x = Math.random() * window.innerWidth;
-      let y = Math.random() * window.innerHeight;
+window.addEventListener('load', function() {
 
 
-      c.beginPath();
-      c.quadraticCurveTo(x, y, 50, x);
-      c.quadraticCurveTo(x, 100, x, 20);
-      c.quadraticCurveTo(x, 80, x, x);
-      
-      c.strokeStyle = 'black'
-      c.stroke();
+        let canvas = document.getElementById('canvas');
+        let c = canvas.getContext('2d');
+        
+        
+                
+        canvas.addEventListener('click', function(e) {
+            
+                let target = e.target;
 
-      }  
-    }
-  }
+                let rect = target.getBoundingClientRect();
 
-  window.setInterval(draw, 240)
+                let x = e.clientX - rect.left;
+                let y = e.clientY - rect.top;
+
+                function generateColor() {
+                  let hexSet = "0123456789ABCDEF";
+
+                  let finalHexString = "#";
+                  for (let i = 0; i < 6; i++) {
+                    finalHexString += hexSet[Math.ceil(Math.random() * 15)];
+                  }
+                  return finalHexString;
+                }
+
+                function draw() {
+
+                  let radius = Math.floor(Math.random() * 180) 
+
+                  let circle = new Path2D();
+                  circle.arc(x, y, radius, 0, 2 * Math.PI);
+                  c.fillStyle = generateColor();
+                  c.fill(circle)
+                
+
+                }
+
+                draw(); 
+                
+
+                let img = canvas.toDataURL("image/png", 1);
+
+                // fix this so that the download comes out correctly
+                // currently png only shows first draw instance rather than
+                // the entire contents/state of the canvas.
+
+                let download = document.getElementById('download')
+
+                download.addEventListener('click', function() {
+                document.write('<img src="'+img+'"/>')
+        })
+
+                
+        })
+     
+        function clear() {
+          c.clearRect(0, 0, canvas.width, canvas.height)
+        }
+
+        let button = document.getElementById('button')
+        button.addEventListener('click', clear)
+
+        
+
+
+
+});
+        
+    
+
+
+  
+
+ 
 
  
 

@@ -1,7 +1,21 @@
 #canvas {
     border: 1px solid black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);               
 }
 
-body {
-    margin: 0;
+#button {
+    position: absolute;
+    bottom: 5%;
+    left: 45%;
+    transform: translate(-50%, -50%);
+}
+
+#download {
+    position: absolute;
+    bottom: 5%;
+    left: 55%;
+    transform: translate(-50%, -50%);
 }
