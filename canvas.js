@@ -5,6 +5,7 @@ window.addEventListener('load', function() {
         let c = canvas.getContext('2d');
         
         
+        
                 
         canvas.addEventListener('click', function(e) {
             
@@ -15,30 +16,41 @@ window.addEventListener('load', function() {
                 let x = e.clientX - rect.left;
                 let y = e.clientY - rect.top;
 
-                function generateColor() {
-                  let hexSet = "0123456789ABCDEF";
-
-                  let finalHexString = "#";
-                  for (let i = 0; i < 6; i++) {
-                    finalHexString += hexSet[Math.ceil(Math.random() * 15)];
-                  }
-                  return finalHexString;
+                function getColor(){ 
+                  return "hsl(" + 360 * Math.random() + ',' +
+                             (25 + 70 * Math.random()) + '%,' + 
+                             (85 + 15 * Math.random()) + '%)'
                 }
 
                 function draw() {
 
-                  let radius = Math.floor(Math.random() * 180) 
+                
+                  let radius = Math.random() * 100
+                  // Math.floor(Math.random() * 180) 
 
                   let circle = new Path2D();
                   circle.arc(x, y, radius, 0, 2 * Math.PI);
-                  c.fillStyle = generateColor();
-                  c.fill(circle)
                 
-
+                  c.fillStyle = getColor();
+                  c.fill(circle)
+                 
+                                
                 }
 
-                draw(); 
+                draw();
+
+                // function repeat(func, times) {
+                //   func();
+                //   times && --times && repeat(func, times);
+                // }
+
+                // repeat(draw, 4);
+
+                // let intervalId;
+              
+                // intervalId = setInterval(draw, 1000);
                 
+
 
                 let img = canvas.toDataURL("image/png", 1);
 
@@ -50,13 +62,14 @@ window.addEventListener('load', function() {
 
                 download.addEventListener('click', function() {
                 document.write('<img src="'+img+'"/>')
-        })
+            })
 
                 
         })
      
         function clear() {
           c.clearRect(0, 0, canvas.width, canvas.height)
+          c.clearInterval()
         }
 
         let button = document.getElementById('button')
