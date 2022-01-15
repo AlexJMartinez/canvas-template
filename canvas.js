@@ -3,11 +3,10 @@ window.addEventListener('load', function() {
 
         let canvas = document.getElementById('canvas');
         let c = canvas.getContext('2d');
-        
-        
+      
         
                 
-        canvas.addEventListener('click', function(e) {
+        canvas.addEventListener('mousedown', function(e) {
             
                 let target = e.target;
 
@@ -16,16 +15,18 @@ window.addEventListener('load', function() {
                 let x = e.clientX - rect.left;
                 let y = e.clientY - rect.top;
 
+                console.log(x)
+                console.log(y)
+
                 function getColor(){ 
                   return "hsl(" + 360 * Math.random() + ',' +
                              (25 + 70 * Math.random()) + '%,' + 
-                             (85 + 15 * Math.random()) + '%)'
+                             (85 + 5 * Math.random()) + '%)'
                 }
 
                 function draw() {
-
-                
-                  let radius = Math.random() * 100
+              
+                  let radius = Math.random() * 180
                   // Math.floor(Math.random() * 180) 
 
                   let circle = new Path2D();
@@ -33,52 +34,45 @@ window.addEventListener('load', function() {
                 
                   c.fillStyle = getColor();
                   c.fill(circle)
-                 
-                                
+                         
                 }
 
-                draw();
+                let drawInterval = null;
 
-                // function repeat(func, times) {
-                //   func();
-                //   times && --times && repeat(func, times);
-                // }
+                function startDraw() {
+                  draw();
+                  drawInterval = setInterval(draw, 50);
+                }
 
-                // repeat(draw, 4);
+                startDraw();
 
-                // let intervalId;
-              
-                // intervalId = setInterval(draw, 1000);
+                function stopDraw() {
+                  clearInterval(drawInterval);
+                }
+
                 
+                canvas.addEventListener('mouseup', stopDraw)
 
-
-                let img = canvas.toDataURL("image/png", 1);
-
-                // fix this so that the download comes out correctly
-                // currently png only shows first draw instance rather than
-                // the entire contents/state of the canvas.
-
-                let download = document.getElementById('download')
-
-                download.addEventListener('click', function() {
-                document.write('<img src="'+img+'"/>')
-            })
-
+                
                 
         })
      
         function clear() {
           c.clearRect(0, 0, canvas.width, canvas.height)
-          c.clearInterval()
+        
         }
 
         let button = document.getElementById('button')
         button.addEventListener('click', clear)
 
+        let download = document.getElementById('download')
+
+                download.addEventListener('click', function() {
+                  let img = canvas.toDataURL("image/png", 1)
+                  document.write('<img src="'+img+'"/>')
+                })
+
         
-
-
-
 });
         
     
